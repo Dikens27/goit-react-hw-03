@@ -1,58 +1,45 @@
-import css from './App.module.css';
+// import css from './App.module.css';
 import { useState, useEffect } from 'react';
-import Description from '../description/Description';
-import Feedback from '../feedback/Feedback';
-import Options from '../options/Options';
-import Notification from '../notification/Notification';
+import ContactForm from '../contactForm/ContactForm';
+import SearchBar from '../searchBox/SearchBar';
+import ContactList from '../contactList/ContactList';
+import initialContacts from '../../contacts.json';
 
-const initialState = { good: 0, neutral: 0, bad: 0 };
-
-const getInitialFeedback = () => {
-  const storedFeedback = window.localStorage.getItem('feedback');
-  return storedFeedback !== null ? JSON.parse(storedFeedback) : initialState;
+const getInitialContacts = () => {
+  const savedContacts = window.localStorage.getItem('saved-contacts');
+  return savedContacts !== '[]' ? JSON.parse(savedContacts) : initialContacts;
 };
 
 export default function App() {
-  const [feedback, setFeedback] = useState(getInitialFeedback);
+  const [contacts, setContacts] = useState(getInitialContacts);
+  const [filter, setFilter] = useState('');
+
+  const addContact = newContact => {
+    setContacts(prevContscts => {
+      return [...prevContscts, newContact];
+    });
+  };
+
+  const deleteContact = contactId => {
+    setContacts(prevContscts => {
+      return prevContscts.filter(contact => contact.id !== contactId);
+    });
+  };
+
+  const visibleContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
 
   useEffect(() => {
-    localStorage.setItem('feedback', JSON.stringify(feedback));
-  }, [feedback]);
-
-  const updateFeedback = feedbackType => {
-    setFeedback(prevFeedback => ({
-      ...prevFeedback,
-      [feedbackType]: prevFeedback[feedbackType] + 1,
-    }));
-  };
-
-  const totalFeedback = feedback.good + feedback.neutral + feedback.bad;
-
-  const positiveFeedback =
-    Math.round(((feedback.good + feedback.neutral) / totalFeedback) * 100) +
-    '%';
-
-  const resetFeedback = () => {
-    setFeedback(initialState);
-  };
+    localStorage.setItem('saved-contacts', JSON.stringify(contacts));
+  }, [contacts]);
 
   return (
-    <div className={css.container}>
-      <Description />
-      <Options
-        updateFeedback={updateFeedback}
-        resetFeedback={resetFeedback}
-        totalFeedback={totalFeedback}
-      />
-      {totalFeedback ? (
-        <Feedback
-          feedback={feedback}
-          totalFeedback={totalFeedback}
-          positiveFeedback={positiveFeedback}
-        />
-      ) : (
-        <Notification />
-      )}
+    <div>
+      <h1>Phonebook</h1>
+      <ContactForm addContact={addContact} />
+      <SearchBar value={filter} onFilter={setFilter} />
+      <ContactList contacts={visibleContacts} onDelete={deleteContact} />
     </div>
   );
 }
