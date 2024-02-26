@@ -1,0 +1,15 @@
+.list {
+  display: flex;
+  gap: 10px;
+}
+
+.button {
+  background-color: lightgrey;
+  border: none;
+  color: black;
+  padding: 8px 10px;
+  width: 100px;
+}
+.button:hover {
+  background-color: grey;
+}
