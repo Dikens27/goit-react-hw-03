@@ -1,4 +1,4 @@
-// import css from './App.module.css';
+import css from './App.module.css';
 import { useState, useEffect } from 'react';
 import ContactForm from '../contactForm/ContactForm';
 import SearchBar from '../searchBox/SearchBar';
@@ -35,7 +35,7 @@ export default function App() {
   }, [contacts]);
 
   return (
-    <div>
+    <div className={css.container}>
       <h1>Phonebook</h1>
       <ContactForm addContact={addContact} />
       <SearchBar value={filter} onFilter={setFilter} />

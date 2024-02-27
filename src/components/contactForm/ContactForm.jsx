@@ -1,10 +1,11 @@
-// import css from './ContactForm.module.css';
-import { Formik, Form, Field } from 'formik';
+import css from './ContactForm.module.css';
+
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useId } from 'react';
 import { nanoid } from 'nanoid';
 import * as yup from 'yup';
 
-const limitation = yup.object().shape({
+const contactSchema = yup.object().shape({
   name: yup
     .string()
     .min(3, 'Too Short!')
@@ -39,18 +40,26 @@ export default function ContactForm({ addContact }) {
     <Formik
       initialValues={initialValues}
       onSubmit={handleSubmit}
-      validationSchema={limitation}
+      validationSchema={contactSchema}
     >
-      <Form>
+      <Form className={css.form}>
         <div>
-          <label htmlFor={nameFiledId}>Name</label>
-          <Field name="name" id={nameFiledId} />
+          <label className={css.label} htmlFor={nameFiledId}>
+            Name
+          </label>
+          <Field className={css.input} name="name" id={nameFiledId} />
+          <ErrorMessage className={css.error} name="name" component="span" />
         </div>
         <div>
-          <label htmlFor={namberFiledId}>Number </label>
-          <Field name="number" id={namberFiledId} />
+          <label className={css.label} htmlFor={namberFiledId}>
+            Number{' '}
+          </label>
+          <Field className={css.input} name="number" id={namberFiledId} />
+          <ErrorMessage className={css.error} name="number" component="span" />
         </div>
-        <button type="submit">Add Contact</button>
+        <button className={css.button} type="submit">
+          Add Contact
+        </button>
       </Form>
     </Formik>
   );

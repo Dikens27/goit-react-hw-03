@@ -1,10 +1,11 @@
-// import css from './SearchBar.module.css';
+import css from './SearchBar.module.css';
 
 export default function SearchBox({ value, onFilter }) {
   return (
     <div>
       <p>Find contacts by name</p>
       <input
+        className={css.input}
         type="text"
         value={value}
         onChange={e => onFilter(e.target.value)}
