@@ -6,8 +6,12 @@ import ContactList from '../contactList/ContactList';
 import initialContacts from '../../contacts.json';
 
 const getInitialContacts = () => {
-  const savedContacts = window.localStorage.getItem('saved-contacts');
-  return savedContacts !== '[]' ? JSON.parse(savedContacts) : initialContacts;
+  const savedContacts = localStorage.getItem('saved-contacts');
+  if (savedContacts) {
+    return JSON.parse(savedContacts);
+  } else {
+    return initialContacts;
+  }
 };
 
 export default function App() {

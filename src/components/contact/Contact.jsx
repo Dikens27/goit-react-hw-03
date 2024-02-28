@@ -21,3 +21,12 @@ export default function Contact({ data: { id, name, number }, onDelete }) {
     </div>
   );
 }
+
+const getInitialContacts = () => {
+  const savedContacts = localStorage.getItem('saved-contacts');
+  if (savedContacts) {
+    return JSON.parse(savedContacts);
+  } else {
+    return initialContacts;
+  }
+};
