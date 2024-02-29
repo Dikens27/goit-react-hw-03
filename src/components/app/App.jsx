@@ -1,7 +1,7 @@
 import css from './App.module.css';
 import { useState, useEffect } from 'react';
 import ContactForm from '../contactForm/ContactForm';
-import SearchBar from '../searchBox/SearchBar';
+import SearchBox from '../searchBox/SearchBox';
 import ContactList from '../contactList/ContactList';
 import initialContacts from '../../contacts.json';
 
@@ -42,7 +42,7 @@ export default function App() {
     <div className={css.container}>
       <h1>Phonebook</h1>
       <ContactForm addContact={addContact} />
-      <SearchBar value={filter} onFilter={setFilter} />
+      <SearchBox value={filter} onFilter={setFilter} />
       <ContactList contacts={visibleContacts} onDelete={deleteContact} />
     </div>
   );
